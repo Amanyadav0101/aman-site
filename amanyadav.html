@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Aman Effect</title>
+
+<!-- ✅ Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: pink;
+        font-family: Arial, sans-serif;
+        position: relative;
+    }
+
+    /* Top box */
+    .top-box {
+        position: absolute;
+        top: 20px;
+        width: 100%;
+        text-align: center;
+        z-index: 10;
+    }
+
+    /* Floating hearts */
+    .heart-bg {
+        position: absolute;
+        color: rgba(255, 0, 100, 0.3);
+        font-size: 20px;
+        animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+        from { transform: translateY(100vh); }
+        to { transform: translateY(-10vh); }
+    }
+
+    /* Aman text */
+    #text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 50px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.5s ease;
+    }
+
+    /* Blink animation */
+    .blink {
+        color: red;
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.3; transform: scale(1.4); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- ✅ Title + Login -->
+<div class="top-box">
+    <h2 class="fw-bold text-dark">Welcome</h2>
+    <button id="loginBtn" class="btn btn-danger">Login</button>
+</div>
+
+<!-- Aman text -->
+<div id="text">clickme</div>
+
+<script>
+    const text = document.getElementById("text");
+    const loginBtn = document.getElementById("loginBtn");
+
+    let clickCount = 0;
+    let size = 50;
+    let loginDone = false;
+
+    // Floating hearts
+    function createHeart() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart-bg");
+        heart.innerHTML = "😻";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = Math.random() * 20 + 10 + "px";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 300);
+
+    // ✅ Login click
+    loginBtn.addEventListener("click", function () {
+        loginDone = true;
+        text.innerHTML = "Hello Simran Billu 💖";
+        text.classList.add("blink");
+
+        setTimeout(() => {
+            text.classList.remove("blink");
+            text.innerHTML = "billu";
+        }, 2000);
+    });
+
+    // Aman click effect
+    text.addEventListener("click", function () {
+
+        if (!loginDone) {
+            alert("Please click Login first!");
+            return;
+        }
+
+        clickCount++;
+
+        if (clickCount < 4) {
+            let x = Math.random() * (window.innerWidth - 100);
+            let y = Math.random() * (window.innerHeight - 100);
+
+            text.style.left = x + "px";
+            text.style.top = y + "px";
+
+            size -= 8;
+            text.style.fontSize = size + "px";
+        } else {
+            text.innerHTML = "😻";
+            text.classList.add("blink");
+        }
+    });
+</script>
+
+</body>
+</html>
